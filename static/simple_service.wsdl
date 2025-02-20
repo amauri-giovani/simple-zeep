@@ -1,0 +1,63 @@
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:tns="http://example.com/simple" targetNamespace="http://example.com/simple">
+
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema"
+                targetNamespace="http://example.com/simple"
+                elementFormDefault="qualified">
+
+            <element name="SimpleRequest">
+                <complexType>
+                    <sequence>
+                        <element name="name" type="xsd:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+
+            <element name="SimpleResponse">
+                <complexType>
+                    <sequence>
+                        <element name="greeting" type="xsd:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+
+        </schema>
+    </types>
+
+    <message name="SimpleRequestMessage">
+        <part name="parameters" element="tns:SimpleRequest"/>
+    </message>
+
+    <message name="SimpleResponseMessage">
+        <part name="parameters" element="tns:SimpleResponse"/>
+    </message>
+
+    <portType name="SimplePortType">
+        <operation name="SayHello">
+            <input message="tns:SimpleRequestMessage"/>
+            <output message="tns:SimpleResponseMessage"/>
+        </operation>
+    </portType>
+
+    <binding name="SimpleBinding" type="tns:SimplePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="SayHello">
+            <soap:operation soapAction="http://example.com/simple/SayHello"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="SimpleService">
+        <port name="SimplePort" binding="tns:SimpleBinding">
+            <soap:address location="http://localhost:8008/argo_soap_service"/>
+        </port>
+    </service>
+</definitions>

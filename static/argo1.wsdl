@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soapenv="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tem="http://tempuri.org/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://tempuri.org/">
+
+    <types>
+        <xsd:schema targetNamespace="http://tempuri.org/">
+            <xsd:element name="GetToken">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="login" type="xsd:string" form="qualified"/>
+                        <xsd:element name="senha" type="xsd:string" form="qualified"/>
+                        <xsd:element name="empresa" type="xsd:string" form="qualified"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="GetTokenResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="GetTokenResult" type="xsd:string" form="qualified"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="ListRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="token" type="xsd:string" form="qualified"/>
+                        <xsd:element name="xml" type="xsd:string" form="qualified"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="ListResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="ListResult" type="xsd:string" form="qualified"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="RecoverRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="token" type="xsd:string" form="qualified"/>
+                        <xsd:element name="solicitacaoID" type="xsd:string" form="qualified" minOccurs="0"/>
+                        <xsd:element name="nroSolic" type="xsd:string" form="qualified" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="RecoverResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="RecoverResult" type="xsd:string" form="qualified"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <message name="GetTokenInput">
+        <part name="parameters" element="tem:GetToken"/>
+    </message>
+    <message name="GetTokenOutput">
+        <part name="parameters" element="tem:GetTokenResponse"/>
+    </message>
+
+    <message name="ListRequestInput">
+        <part name="parameters" element="tem:ListRequest"/>
+    </message>
+    <message name="ListRequestOutput">
+        <part name="parameters" element="tem:ListResponse"/>
+    </message>
+
+    <message name="RecoverRequestInput">
+        <part name="parameters" element="tem:RecoverRequest"/>
+    </message>
+    <message name="RecoverRequestOutput">
+        <part name="parameters" element="tem:RecoverResponse"/>
+    </message>
+
+    <portType name="ArgoSoapPortType">
+        <operation name="GetToken">
+            <input message="tem:GetTokenInput"/>
+            <output message="tem:GetTokenOutput"/>
+        </operation>
+        <operation name="ListRequest">
+            <input message="tem:ListRequestInput"/>
+            <output message="tem:ListRequestOutput"/>
+        </operation>
+        <operation name="RecoverRequest">
+            <input message="tem:RecoverRequestInput"/>
+            <output message="tem:RecoverRequestOutput"/>
+        </operation>
+    </portType>
+
+    <!-- Binding para GetToken -->
+    <binding name="ArgoSoapBindingGetToken" type="tem:ArgoSoapPortType">
+        <soapenv:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="GetToken">
+            <soapenv:operation soapAction="http://tempuri.org/GetToken"/>
+            <input>
+                <soapenv:body use="literal"/>
+            </input>
+            <output>
+                <soapenv:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Binding para ListRequest -->
+    <binding name="ArgoSoapBindingListRequest" type="tem:ArgoSoapPortType">
+        <soapenv:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="ListRequest">
+            <soapenv:operation soapAction="http://tempuri.org/ListRequest"/>
+            <input>
+                <soapenv:body use="literal"/>
+            </input>
+            <output>
+                <soapenv:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Binding para RecoverRequest -->
+    <binding name="ArgoSoapBindingRecoverRequest" type="tem:ArgoSoapPortType">
+        <soapenv:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="RecoverRequest">
+            <soapenv:operation soapAction="http://tempuri.org/RecoverRequest"/>
+            <input>
+                <soapenv:body use="literal"/>
+            </input>
+            <output>
+                <soapenv:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="ArgoSoapService">
+        <!-- Porta para GetToken -->
+        <port name="ArgoSoapPortGetToken" binding="tem:ArgoSoapBindingGetToken">
+            <soapenv:address location="https://localhost:8008/get_token/"/>
+        </port>
+
+        <!-- Porta para ListRequest -->
+        <port name="ArgoSoapPortListRequest" binding="tem:ArgoSoapBindingListRequest">
+            <soapenv:address location="https://localhost:8008/list_request/"/>
+        </port>
+
+        <!-- Porta para RecoverRequest -->
+        <port name="ArgoSoapPortRecoverRequest" binding="tem:ArgoSoapBindingRecoverRequest">
+            <soapenv:address location="https://localhost:8008/recover_request/"/>
+        </port>
+    </service>
+
+</definitions>

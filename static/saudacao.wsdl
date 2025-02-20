@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://exemplo.com/saudacao"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://exemplo.com/saudacao">
+
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema"
+                targetNamespace="http://exemplo.com/saudacao"
+                elementFormDefault="qualified">
+            <element name="SaudacaoRequest">
+                <complexType>
+                    <sequence>
+                        <element name="nome" type="xs:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="SaudacaoResponse">
+                <complexType>
+                    <sequence>
+                        <element name="mensagem" type="xs:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+
+    <message name="SaudacaoRequestMessage">
+        <part name="parameters" element="tns:SaudacaoRequest"/>
+    </message>
+    <message name="SaudacaoResponseMessage">
+        <part name="parameters" element="tns:SaudacaoResponse"/>
+    </message>
+
+    <portType name="SaudacaoPortType">
+        <operation name="dizerSaudacao">
+            <input message="tns:SaudacaoRequestMessage"/>
+            <output message="tns:SaudacaoResponseMessage"/>
+        </operation>
+    </portType>
+
+    <binding name="SaudacaoBinding" type="tns:SaudacaoPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="dizerSaudacao">
+            <soap:operation soapAction="http://exemplo.com/saudacao/dizerSaudacao"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="SaudacaoService">
+        <port name="SaudacaoPort" binding="tns:SaudacaoBinding">
+            <soap:address location="http://localhost:8080/saudacao"/>
+        </port>
+    </service>
+</definitions>
